@@ -16,7 +16,7 @@ def makeData(assignments):
             oldAssignments.append(assignment)
     with open("assignments.dat", "wb") as file:
         pickle.dump(oldAssignments, file)
-    wb = xw.Workbook("assignments.xslx")
+    wb = xw.Workbook("assignments.xlsx")
     ws = wb.add_worksheet()
 
     r = 1
