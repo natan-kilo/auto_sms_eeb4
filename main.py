@@ -5,6 +5,9 @@ import configure
 import time
 from misc import makeAssignment
 import makefiles
+import os
+import sys
+import calendars
 
 key = input("Please input Encryption Key - ")
 try:
@@ -48,6 +51,25 @@ while True:
     except:
         break
 
+if not os.path.exists("credentials.json") and config["GOOGLE"]["usr"] != "-":
+    browser.get('https://developers.google.com/calendar/quickstart/python')
+    browser.find_element_by_xpath('//*[@id="top_of_page"]/div[2]/div[2]/a[2]').click()
+    browser.find_element_by_xpath('//*[@id="gc-wrapper"]/div[2]/article/article/div[2]/p[4]/a').click()
+    browser.implicitly_wait(10)
+    browser.find_element_by_xpath('//*[@id="identifierId"]').send_keys(config["GOOGLE"]["usr"], Keys.ENTER)
+    browser.implicitly_wait(10)
+    browser.find_element_by_xpath('//*[@id="password"]/div[1]/div/div[1]/input').send_keys(config["GOOGLE"]["pwd"], Keys.ENTER)
+    browser.implicitly_wait(10)
+    browser.find_element_by_xpath('//*[@id="gc-wrapper"]/div[2]/article/article/div[2]/p[4]/a').click()
+    browser.implicitly_wait(10)
+    browser.switch_to.frame(browser.find_element_by_xpath('//*[@id="devsite-dialog-onload-henhouse-0_widget_container"]/iframe'))
+    browser.find_element_by_xpath('/html/body/hen-flow/hen-success-page/div[2]/div[2]/ng-container/div/a').click()
+
+    time.sleep(1)
+    os.system("move %userprofile%\\Downloads\\credentials.json " + os.getcwd())
+
 browser.quit()
+
+calendars.addToCalendars(config, newAssignments)
 
 makefiles.makeData(newAssignments)

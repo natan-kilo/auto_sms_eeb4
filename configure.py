@@ -20,9 +20,17 @@ def makeConfig():
         if useGoogleCal:
             email_google = input("Please input Google Mail - ")
             pwd_google = getpass.getpass("Please input Google Password - ")
+            pre_notif_weeks_g = input("Please Input amount of Weeks (Prenotifications) - ")
+            pre_notif_days_g = input("Please Input amount of Days (Prenotifications) - ")
+            pre_notif_hours_g = input("Please Input amount of Hours (Prenotifications) - ")
+            pre_notif_minutes_g = input("Please Input amount of Minutes (Prenotifications) - ")
         config["GOOGLE"] = {
             "usr":email_google if useGoogleCal == True else "-",
-            "pwd":pwd_google if useGoogleCal == True else "-"
+            "pwd":pwd_google if useGoogleCal == True else "-",
+            "pn_w":pre_notif_weeks_g if useGoogleCal == True else "-",
+            "pn_d":pre_notif_days_g if useGoogleCal == True else "-",
+            "pn_h":pre_notif_hours_g if useGoogleCal == True else "-",
+            "pn_m":pre_notif_minutes_g if useGoogleCal == True else "-"
         }
 
         useOutlookCal = getYN("Use Apple Calendar? (Y/N) - ")
@@ -36,16 +44,20 @@ def makeConfig():
         config["APPLE"] = {
             "usr":email_outlook if useOutlookCal == True else "-",
             "pwd":pwd_outlook if useOutlookCal == True else "-",
-            "pn_w":pre_notif_weeks if pre_notif_weeks != 0 and useOutlookCal else "-",
-            "pn_d":pre_notif_days if pre_notif_days != 0 and useOutlookCal else "-",
-            "pn_h":pre_notif_hours if pre_notif_hours != 0 and useOutlookCal else "-",
-            "pn_m":pre_notif_minutes if pre_notif_minutes != 0 and useOutlookCal else "-"
+            "pn_w":pre_notif_weeks if useOutlookCal == True else "-",
+            "pn_d":pre_notif_days if useOutlookCal == True else "-",
+            "pn_h":pre_notif_hours if useOutlookCal == True else "-",
+            "pn_m":pre_notif_minutes if useOutlookCal == True else "-"
         }
         os.system("cls")
         print("SMS Email :", config["SMS"]["usr"])
         print("SMS Password :", config["SMS"]["pwd"])
         print("GOOGLE Email :", config["GOOGLE"]["usr"])
         print("GOOGLE Password :", config["GOOGLE"]["pwd"])
+        print("GOOGLE Prenotification Weeks :", config["GOOGLE"]["pn_w"])
+        print("GOOGLE Prenotification Days :", config["GOOGLE"]["pn_d"])
+        print("GOOGLE Prenotification Hours :", config["GOOGLE"]["pn_h"])
+        print("GOOGLE Prenotification Minutes :", config["GOOGLE"]["pn_m"])
         print("APPLE Email :", config["APPLE"]["usr"])
         print("APPLE Password :", config["APPLE"]["pwd"])
         print("APPLE Prenotification Weeks :", config["APPLE"]["pn_w"])
@@ -53,6 +65,7 @@ def makeConfig():
         print("APPLE Prenotification Hours :", config["APPLE"]["pn_h"])
         print("APPLE Prenotification Minutes :", config["APPLE"]["pn_m"])
         configAccepted = getYN("Do you wish continue with the Options selected above? (Y/N) - ")
+    os.system("cls")
     rwuserdata.encryptObj(key.encode(), config, "config.aes")
     return config
 

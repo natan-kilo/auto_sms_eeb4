@@ -29,10 +29,13 @@ def makeData(assignments):
     ws.write(0, 4, "Description")
 
     for assignment in oldAssignments:
-        ws.write(r, c, assignment["Subject"])
+        ws.write(r, c, assignment["Subject"][2:5])
         ws.write(r, c+1, assignment["Title"])
-        ws.write(r, c+2, assignment["Type"])
-        ws.write(r, c+3, assignment["Date"])
+        a_year = assignment["Date"].split("/")[2]
+        a_month = assignment["Date"].split("/")[1]
+        a_day = assignment["Date"].split("/")[0]
+        ws.write(r, c+2, a_year + "-" + a_month + "-" + a_day + "T08:55:15.3471454Z")
+        ws.write(r, c+3, a_year + "-" + a_month + "-" + a_day + "T09:55:15.3471454Z")
         ws.write(r, c+4, assignment["Description"])
         r += 1
 
